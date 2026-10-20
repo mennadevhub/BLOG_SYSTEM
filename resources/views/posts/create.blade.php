@@ -21,7 +21,7 @@
 
                 <div class="mb-3">
                     <label for="id" class="form-label">id</label>
-                    <input type="text" class="form-control" id="id" name="id" required>
+                    <input type="text" class="form-control" id="id" name="id" >
                 </div>
 
                 <div class="mb-3">
@@ -35,13 +35,18 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="posted_by" class="form-label">Posted By</label>
-                    <input type="text" class="form-control" id="posted_by" name="posted_by" required>
+                    <label for="created_by" class="form-label">Posted By</label>
+                    <input type="text" class="form-control" id="created_by" name="created_by" required>
                 </div>
 
                 <div class="mb-3">
                     <label for="created_at" class="form-label">Created At</label>
-                    <input type="datetime-local" class="form-control" id="created_at" name="created_at" required>
+                    <input type="datetime-local" class="form-control" id="created_at" name="created_at" >
+                </div>
+
+                <div class="mb-3">
+                    <label for="updated_at" class="form-label">Updated At</label>
+                    <input type="datetime-local" class="form-control" id="updated_at" name="updated_at" >
                 </div>
 
                 <button type="submit" class=" mt-5 btn-solid theme-success">Submit</button>
