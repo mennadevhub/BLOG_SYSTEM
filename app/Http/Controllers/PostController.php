@@ -37,15 +37,15 @@ class PostController extends Controller
 
         // Way_1: // don't need fillable here
 
-        // $post = new Post;
+        $post = new Post;
 
-        // $post->id = $request->id;
-        // $post->title = $request->title;
-        // $post->content = $request['content'];
-        // $post->created_by = $request->created_by;
+        $post->id = $request->id;
+        $post->title = $request->title;
+        $post->content = $request['content'];
+        $post->created_by = $request->created_by;
 
         // $post->save(); //Don't be in within a database transaction
-        // $post->saveOrFail(); //If you would like to save the model within a database transaction, If an exception is thrown during the save, the transaction will automatically be rolled back
+        $post->saveOrFail(); //If you would like to save the model within a database transaction, If an exception is thrown during the save, the transaction will automatically be rolled back
 
 
         // Way_2:
@@ -59,9 +59,9 @@ class PostController extends Controller
         // ]);
 
         //or
-        $post = new Post();
-        $post->fill($request->all());
-        $post->saveOrFail();
+        // $post = new Post();
+        // $post->fill($request->all());
+        // $post->saveOrFail();
 
 
      // 3. Show A Message To user About the State Of His Request & Redirect To The Suitable Page
