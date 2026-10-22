@@ -9,7 +9,9 @@ class PostController extends Controller
 {
     public function index() {
         // select * from posts;
-        $posts = Post::all();
+
+        // $posts = Post::all();
+         $posts = Post::withTrashed()->get();
         // dd($posts);
 
         return view('posts.index' , ['posts' => $posts]);
@@ -110,6 +112,15 @@ class PostController extends Controller
         // dd($post);
         $post->delete();
        return redirect()->route('posts.index');
+    }
+
+    public function restore(int $id){
+
+        $post= Post::withTrashed()->findOrFail($id);
+        // dd($post);
+        $post->restore();
+        return redirect()->route('posts.index');
+
     }
 
 

@@ -29,29 +29,46 @@
 
         <tbody >
 
-          @foreach ($posts as $post)
+        @foreach ($posts as $post)
             <tr>
                 {{-- <th scope="row"> {{ $post['id'] }} </th> this true alse but no use it --}}
                 <th scope="row"> {{ $post->id }} </th>
-                <td> {{ $post->title }} </td>
-                    <td> {{ $post->content }} </td>
+                <td> {{ $post->title }}
+                      @if($post->trashed())
+                         <span class="badge bg-danger"> Deleted</span>
+                      @endif
+                </td>
+                <td> {{ $post->content }} </td>
                 <td> {{ $post->created_by }} </td>
                 <td> {{ $post->created_at }} </td>
-                
+
                 <td class="col d-flex gap-2">
-                    <a href="{{ route('posts.show', ['post' => $post->id]) }}" class="btn-solid theme-info btn-sm" >View</a>
 
-                    <a href="{{ route('posts.edit', ['post' => $post->id]) }}" class="btn-solid theme-primary btn-sm">Edit</a>
+                    @if (!$post->trashed())
+                        <a href="{{ route('posts.show', ['post' => $post->id]) }}" class="btn-solid theme-info btn-sm" >View</a>
 
-                    {{-- <a href="{{ route('posts.destroy',['post' => $post->id]) }}" class="btn-solid theme-danger btn-sm" >Delete</a> --}}
-                    <form method="POST" action="{{ route('posts.destroy', ['post' => $post->id]) }}" >
-                        @csrf
-                        @method('DELETE')
-                        <button class="btn-solid theme-danger btn-sm" type="submit">Delete</button>
-                    </form>
+                        <a href="{{ route('posts.edit', ['post' => $post->id]) }}" class="btn-solid theme-primary btn-sm">Edit</a>
+
+                        {{-- <a href="{{ route('posts.destroy',['post' => $post->id]) }}" class="btn-solid theme-danger btn-sm" >Delete</a> --}}
+                        <form method="POST" action="{{ route('posts.destroy', ['post' => $post->id]) }}" >
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn-solid theme-danger btn-sm" type="submit" onclick="return confirm('Are you sure?')"
+                                >Delete</button>
+                        </form>
+
+                    @else
+                        <form method="POST" action="{{ route('posts.restore', ['post' => $post->id]) }}" >
+                            @csrf
+                            @method('PATCH')
+                            <button class="btn-solid theme-warning  btn-sm " type="submit"
+                                >Restore</button>
+                        </form>
+                    @endif
                 </td>
             </tr>
-          @endforeach
+        @endforeach
+
 
         </tbody>
 
