@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Post;
-
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -11,17 +11,20 @@ class PostController extends Controller
         // select * from posts;
 
         // $posts = Post::all();
-         $posts = Post::withTrashed()->get();
+        //  $posts = Post::withTrashed()->get();
+
+        $posts = Post::withTrashed()->paginate(5);
         // dd($posts);
 
         return view('posts.index' , ['posts' => $posts]);
     }
 
     public function create() {
-        return view('posts.create');
+        return view('posts.create' , ['users'=> User::all()]);
     }
 
     public function store(Request $request) {
+        // dd($request);
      // 1. Fetch The Request Data
 
         // $data = request()->all();
@@ -109,18 +112,20 @@ class PostController extends Controller
 
 
     public function destroy(Post $post){
-        // dd($post);
         $post->delete();
        return redirect()->route('posts.index');
     }
 
     public function restore(int $id){
-
         $post= Post::withTrashed()->findOrFail($id);
-        // dd($post);
         $post->restore();
         return redirect()->route('posts.index');
+    }
 
+    public function forceDelete(int $id){
+        $post= Post::withTrashed()->findOrFail($id);
+        $post->forceDelete();
+        return redirect()->route('posts.index');
     }
 
 

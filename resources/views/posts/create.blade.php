@@ -36,7 +36,11 @@
 
                 <div class="mb-3">
                     <label for="created_by" class="form-label">Posted By</label>
-                    <input type="text" class="form-control" id="created_by" name="created_by" >
+                    <select class="form-control" name="created_by">
+                        @foreach($users as $user)
+                            <option>{{ $user->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
 
                 <div class="mb-3">

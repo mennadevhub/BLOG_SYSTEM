@@ -39,7 +39,7 @@
                       @endif
                 </td>
                 <td> {{ $post->content }} </td>
-                <td> {{ $post->created_by }} </td>
+                <td> {{ $post->user ? $post->user->name : 'user not found'}} </td>
                 <td> {{ $post->created_at }} </td>
 
                 <td class="col d-flex gap-2">
@@ -53,7 +53,7 @@
                         <form method="POST" action="{{ route('posts.destroy', ['post' => $post->id]) }}" >
                             @csrf
                             @method('DELETE')
-                            <button class="btn-solid theme-danger btn-sm" type="submit" onclick="return confirm('Are you sure?')"
+                            <button class="btn-solid theme-danger btn-sm" type="submit" onclick="return confirm('Are you sure for deleting this post?')"
                                 >Delete</button>
                         </form>
 
@@ -64,15 +64,26 @@
                             <button class="btn-solid theme-warning  btn-sm " type="submit"
                                 >Restore</button>
                         </form>
+
+                        <form method="POST" action="{{ route('posts.forceDelete', ['post' => $post->id]) }}" >
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn-solid theme-danger btn-sm" type="submit" onclick="return confirm('Caution: This action will cause the post to be permanently deleted!!')"
+                                >Delete For Ever</button>
+                        </form>
                     @endif
                 </td>
             </tr>
-        @endforeach
 
+        @endforeach
 
         </tbody>
 
     </table>
+
+        <div class="d-flex justify-content-center mt-4 ">
+            {{ $posts->links() }}
+        </div>
 
 </x-layout>
 

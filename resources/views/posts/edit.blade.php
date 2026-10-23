@@ -31,10 +31,6 @@
                 <textarea name="content" class="form-control" rows="4">{{ old('content', $post->content) }}</textarea>
             </div>
 
-            <div class="mb-3">
-                <label class="form-label"> Post Creator </label>
-                <input name="created_by" class="form-control" value="{{ old('created_by', $post->created_by) }}"></input>
-            </div>
 
             <button class="btn-solid theme-primary" type="submit"> Update </button>
 

@@ -24,3 +24,4 @@ Route::get('/', function () {
 
 Route::resource('posts', PostController::class);
 Route::patch('/posts/{post}/restore', [PostController::class, 'restore'])->name('posts.restore');
+Route::delete('/posts/{post}/force-delete', [PostController::class, 'forceDelete'])->name('posts.forceDelete');

@@ -22,6 +22,11 @@ class Post extends Model
     //guarded --> here all columns mass assignable
     protected $guarded = [];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class , 'created_by');
+    }
+
 
 
 }

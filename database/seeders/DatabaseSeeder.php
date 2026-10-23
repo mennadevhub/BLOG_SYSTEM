@@ -27,10 +27,10 @@ class DatabaseSeeder extends Seeder
         //     'email' => Str::random(10).'@example.com',
         //     'password' => Hash::make('password'),
         // ]);
-        
+
         // Post::factory()->count(10)->create();
 
-        User::factory()->count(10)->create();
+        User::factory()->count(2)->create();
 
     }
 }
