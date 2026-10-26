@@ -4,10 +4,6 @@
         Posts Page
     </x-slot:title>
 
-    <x-slot:blogLink>
-        <a class="navbar-brand mb-0 h1" href="#">Blog</a>
-    </x-slot:blogLink>
-
     <div class="d-grid gap-2  md:d-flex md:justify-content-end mx-12 mt-7">
         <a href="{{ route('posts.create') }}" class="btn-solid theme-success">Create Post</a>
     </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -16,6 +17,9 @@ class PostController extends Controller
         $posts = Post::withTrashed()->paginate(5);
         // dd($posts);
 
+        // $user = Auth::user();
+        // dd($user);
+
         return view('posts.index' , ['posts' => $posts]);
     }
 
@@ -24,7 +28,10 @@ class PostController extends Controller
     }
 
     public function store(Request $request) {
+        //  $user = $request->user();
+        //  dd($user);
         // dd($request);
+
      // 1. Fetch The Request Data
 
         // $data = request()->all();

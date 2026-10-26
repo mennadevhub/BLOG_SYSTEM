@@ -4,10 +4,6 @@
         Edit Post Page
     </x-slot:title>
 
-    <x-slot:blogLink>
-        <a class="navbar-brand mb-0 h1" href="{{ route('posts.index') }}">Blog</a>
-    </x-slot:blogLink>
-
 
     <div class="container">
 

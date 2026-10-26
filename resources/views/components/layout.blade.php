@@ -14,11 +14,50 @@
 
 <body>
 
-    <nav class="navbar bg-1 fg-2" >
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-             {{ $blogLink ?? '' }}
+
+            <a class="navbar-brand" href="{{ route('posts.index') }}">
+                <h3>Blogga</h3>
+            </a>
+
+            <div class="d-flex align-items-center gap-5">
+
+                @auth
+
+                    <a href="{{ route('posts.index') }}" class="nav-link">
+                        Posts
+                    </a>
+
+                    <span>
+                        Welcome, {{ auth()->user()->name }}
+                    </span>
+
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+
+                        <button type="submit" class="btn-solid theme-dark">
+                            Logout
+                        </button>
+                    </form>
+
+                @else
+
+                    <a href="{{ route('login') }}" class="btn-solid theme-secondary">
+                        Login
+                    </a>
+
+                    <a href="{{ route('register') }}" class="btn-solid theme-primary">
+                        Register
+                    </a>
+
+                @endauth
+
+            </div>
         </div>
     </nav>
+
+
 
     {{ $slot }}
 
