@@ -5,9 +5,12 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class PostController extends Controller
 {
+    use AuthorizesRequests;
+
     public function index() {
         // select * from posts;
 
@@ -24,7 +27,8 @@ class PostController extends Controller
     }
 
     public function create() {
-        return view('posts.create' , ['users'=> User::all()]);
+        // return view('posts.create' , ['users'=> User::all()]);
+        return view('posts.create');
     }
 
     public function store(Request $request) {
@@ -49,15 +53,22 @@ class PostController extends Controller
 
         // Way_1: // don't need fillable here
 
-        $post = new Post;
+        // $post = new Post;
 
-        $post->id = $request->id;
-        $post->title = $request->title;
-        $post->content = $request['content'];
-        $post->created_by = $request->created_by;
+        // $post->id = $request->id;
+        // $post->title = $request->title;
+        // $post->content = $request['content'];
+        // $post->created_by = $request->created_by;
+
+
+        // $post = new Post([
+        //     'title' => $request->title,
+        //     'content' => $request['content'],
+        //     'created_by'=> Auth::id(),
+        // ]);
 
         // $post->save(); //Don't be in within a database transaction
-        $post->saveOrFail(); //If you would like to save the model within a database transaction, If an exception is thrown during the save, the transaction will automatically be rolled back
+        // $post->saveOrFail(); //If you would like to save the model within a database transaction, If an exception is thrown during the save, the transaction will automatically be rolled back
 
 
         // Way_2:
@@ -76,7 +87,21 @@ class PostController extends Controller
         // $post->saveOrFail();
 
 
+        // Way_3: Vlidation & security
+       //Mass Assignment تعين جماعي --> vulnerability --> to solving it used fillable
+
+        $validated = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'content' => ['required', 'string'],
+        ]);
+
+        $request->user()->posts()->create($validated);
+
+
+
+
      // 3. Show A Message To user About the State Of His Request & Redirect To The Suitable Page
+
         //    return redirect('/posts');
         return redirect()->route("posts.index");
     }
@@ -98,9 +123,7 @@ class PostController extends Controller
     }
 
     public function edit(Post $post){
-
-        // $post = Post::findOrFail($post);
-
+        $this->authorize('update', $post);
         return view('posts.edit', compact('post'));
     }
 
@@ -108,29 +131,35 @@ class PostController extends Controller
     public function update(Request $request , Post $post){
         // dd( $request);
 
-       $post->updateOrFail([
-            'title' => $request->title,
-            'content' => $request['content'],
-            'created_by' => $request->created_by,
-       ]);
+        $this->authorize('update', $post);
+
+        $validated = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'content' => ['required', 'string'],
+        ]);
+
+        $post->updateOrFail($validated);
 
        return redirect()->route('posts.index');
     }
 
 
     public function destroy(Post $post){
-        $post->delete();
+        $this->authorize('delete', $post);
+         $post->delete();
        return redirect()->route('posts.index');
     }
 
     public function restore(int $id){
         $post= Post::withTrashed()->findOrFail($id);
+        $this->authorize('restore', $post);
         $post->restore();
         return redirect()->route('posts.index');
     }
 
     public function forceDelete(int $id){
         $post= Post::withTrashed()->findOrFail($id);
+        $this->authorize('forceDelete', $post);
         $post->forceDelete();
         return redirect()->route('posts.index');
     }

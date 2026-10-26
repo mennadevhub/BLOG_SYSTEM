@@ -17,16 +17,18 @@ class Post extends Model
     use HasFactory , SoftDeletes;
 
     //fillable -->detemine the columns that be mass assignable
-    // protected $fillable = [];
+    protected $fillable = [
+        'title',
+       'content',
+    ];
 
     //guarded --> here all columns mass assignable
-    protected $guarded = [];
+    // protected $guarded = [];
 
     public function user()
     {
         return $this->belongsTo(User::class , 'created_by');
     }
-
 
 
 }
